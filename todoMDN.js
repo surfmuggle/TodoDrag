@@ -55,6 +55,19 @@ function addEventListener()
         });
 }
 
+
+function getTodos()
+{
+    var todos = [
+        {id:1, title:"get Milk", status: "open"}
+        ,{id:2, title:"read Book", status: "open"}
+        ,{id:3, title:"bake cookies", status: "open"}
+        ,{id:4, title:"eat ice cream", status: "open"}
+    ];
+    app.todos = todos;
+    return todos;
+}
+
 function init()
 {
     addEventListener();
