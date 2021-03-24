@@ -26,6 +26,8 @@ function fillTodoList()
     var todoList = document.getElementById("todoList"); 
     var todos = getTodos();
     renderTodos(todoList, todos);
+    const newListForm = document.querySelector('[data-new-list-form]')
+    console.log("newListForm", newListForm);
 }
 
 
@@ -55,9 +57,33 @@ function addTodoListItem(todo, targetNode) {
     listItem.setAttribute('data-id', todo.id);
     listItem.setAttribute('class', todo.status);
     listItem.setAttribute('draggable', 'true');
-    listItem.addEventListener("dragstart", todoDragStartEvent, false);
+    // listItem.addEventListener("dragstart", todoDragStartEvent, false);
     listItem.addEventListener("dragend", todoDragEndEvent, false);
+    addDebugEvents(listItem);
     targetNode.appendChild(listItem);
+}
+
+function addDebugEvents(listItem)
+{
+    var options = {capture: true}; //  EventTarget beneath it in the DOM tree
+    // https://www.freecodecamp.org/news/javascript-addeventlistener-example-code/
+    // capture or bubble
+    // https://javascript.info/bubbling-and-capturing
+    // bubbling phase: false means the innermost HTML event handler is executed first <div><img></div>
+    listItem.addEventListener("dragover", debugDragOver, false);
+    listItem.addEventListener("drop", debugDrop, false);
+}
+
+function debugDragOver(event)
+{
+    let dragOverList = document.getElementById("dragOverList");
+    console.log("debugDragOver", event);
+}
+
+function debugDrop(event)
+{
+    // let dragOverList = document.getElementById("dragOverList");
+    console.log("debugDrop", event);
 }
 
 function todoDragStartEvent(event)
@@ -70,6 +96,7 @@ function todoDragStartEvent(event)
 function todoDragEndEvent(event)
 {
     let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+    console.log(' elemBelow',  elemBelow);
     let draggedElement = event.srcElement;
     var id = draggedElement.getAttribute('data-id');
     // var todo = app.todos.findIndex();
