@@ -1,4 +1,53 @@
 var dragged;
+let app = {
+    todos: []
+}
+
+function fillTodoList()
+{
+    var todoList = document.getElementById("todoList"); 
+    var todos = getTodos();
+    renderTodos(todoList, todos);
+    const newListForm = document.querySelector('[data-new-list-form]')
+    console.log("newListForm", newListForm);
+}
+
+function renderTodos(targetNode, todos)
+{
+    todos.forEach(todo => {
+        addTodoListItem(todo, targetNode);
+    } );
+}
+
+function addTodoListItem(todo, targetNode) {
+    let listItem = document.createElement("li");
+    listItem.id = "todo-item-" + todo.id;
+    listItem.innerText = todo.title;
+    listItem.setAttribute('data-id', todo.id);
+    listItem.setAttribute('class', todo.status);
+    listItem.setAttribute('draggable', 'true');
+    // listItem.addEventListener("dragstart", todoDragStartEvent, false);
+    listItem.addEventListener("dragend", todoDragEndEvent, false);
+    // addDebugEvents(listItem);
+    targetNode.appendChild(listItem);
+}
+
+function getTodos()
+{
+    var todos = [
+        {id:1, title:"get Milk", status: "open"}
+        ,{id:2, title:"read Book", status: "open"}
+        ,{id:3, title:"bake cookies", status: "open"}
+        ,{id:4, title:"eat ice cream", status: "open"}
+    ];
+    app.todos = todos;
+    return todos;
+}
+
+function todoDragEndEvent(event)
+{
+
+}
 
 function onDragStart(event)
 {
@@ -56,21 +105,11 @@ function addEventListener()
 }
 
 
-function getTodos()
-{
-    var todos = [
-        {id:1, title:"get Milk", status: "open"}
-        ,{id:2, title:"read Book", status: "open"}
-        ,{id:3, title:"bake cookies", status: "open"}
-        ,{id:4, title:"eat ice cream", status: "open"}
-    ];
-    app.todos = todos;
-    return todos;
-}
 
 function init()
 {
     addEventListener();
+    fillTodoList()
 }
 
 
