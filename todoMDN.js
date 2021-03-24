@@ -1,8 +1,11 @@
 var dragged;
 let app = {
+    draggedElement: null,
     todos: []
 }
 
+
+// #region  fillTodoList renderTodos addTodoListItem getTodos
 function fillTodoList()
 {
     var todoList = document.getElementById("todoList"); 
@@ -11,6 +14,8 @@ function fillTodoList()
     const newListForm = document.querySelector('[data-new-list-form]')
     console.log("newListForm", newListForm);
 }
+
+
 
 function renderTodos(targetNode, todos)
 {
@@ -27,7 +32,9 @@ function addTodoListItem(todo, targetNode) {
     listItem.setAttribute('class', todo.status);
     listItem.setAttribute('draggable', 'true');
     // listItem.addEventListener("dragstart", todoDragStartEvent, false);
-    listItem.addEventListener("dragend", todoDragEndEvent, false);
+    listItem.addEventListener("dragstart", onDragStart, false);
+    listItem.addEventListener("drop", onDrop, false);
+    // listItem.addEventListener("dragend", todoDragEndEvent, false);
     // addDebugEvents(listItem);
     targetNode.appendChild(listItem);
 }
@@ -44,6 +51,8 @@ function getTodos()
     return todos;
 }
 
+// #endregion
+
 function todoDragEndEvent(event)
 {
 
@@ -52,10 +61,17 @@ function todoDragEndEvent(event)
 function onDragStart(event)
 {
     // store a ref. on the dragged elem
-    dragged = event.target;
+    app.draggedElement = event.target;
     console.log("dragtstart event.target", event.target);
 }
 
+function onDragOver(event) {
+    // prevent default to allow drop
+    event.preventDefault();
+}
+
+
+// #region onDragEnter and onDragLeave are optional but improve UX
 function onDragEnter(event)
 {
     // highlight potential drop target when the draggable element enters it
@@ -70,17 +86,18 @@ function onDragLeave(event) {
         event.target.style.background = "";
     }
 }
+// #endregion 
 
 function onDrop(event) {
-    console.log("onDrop dragged + event", dragged, event);
-    console.log("dragtstart event.target.className", event.target.className);
+    console.log("onDrop draggedElement, event", app.draggedElement, event);
     // prevent default action (open as link for some elements)
     event.preventDefault();
     // move dragged elem to the selected drop target
     if ( event.target.className == "dropzone" ) {
         event.target.style.background = "";
-        dragged.parentNode.removeChild( dragged );
-        event.target.appendChild( dragged );
+        console.log("app.draggedElement.parentNode", app.draggedElement.parentNode);
+        app.draggedElement.parentNode.removeChild( app.draggedElement );
+        event.target.appendChild( app.draggedElement );
     }
 }
 
@@ -88,20 +105,16 @@ function addEventListener()
 {
     var dropNodes = document.querySelectorAll(".dropzone");
 
-    dropNodes.forEach(node =>
-        {
-            console.log("node =>", node);
-            node.addEventListener("dragstart", onDragStart, false);
-            /* events fired on the drop targets */
-            node.addEventListener("dragover", function( event ) {
-                  // prevent default to allow drop
-                  event.preventDefault();
-            }, false);
-            
-            node.addEventListener("dragenter", onDragEnter, false);
-            node.addEventListener("dragleave", onDragLeave, false);
-            node.addEventListener("drop", onDrop, false);
-        });
+    dropNodes.forEach(node => {
+        node.addEventListener("dragstart", onDragStart, false);
+        /* events fired on the drop targets */
+        node.addEventListener("dragover", onDragOver, false);
+        
+        // adding these improves usability but is not needed 
+        // node.addEventListener("dragenter", onDragEnter, false);
+        // node.addEventListener("dragleave", onDragLeave, false);
+        node.addEventListener("drop", onDrop, false);
+    });
 }
 
 
