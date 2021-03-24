@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="description" content="This is a small Tododlist using JS" />
+    <meta charset="utf-8">
+    <title>Todo List</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+    h3 {margin: 0.5ex 1em; padding: 0}
+    div { width: 30em; margin: 1em 0.5ex}
+    .open {color: red;}
+    .in-progress {color: blue;}
+    .done {color: green; text-decoration: line-through;}
+    .dragdropArea {min-height: 5em; border: 1px solid grey; padding: 1ex;}  
+
+    #draggable {  background: white; }
+    .dropzone {  background: rgb(144, 175, 231); margin-bottom: 10px; padding: 10px; }      
+    </style>
+</head>
+
+<body>
+<section>
+<h2>Todo Items</h2>
+<div class="dropzone">
+    <div id="draggable" draggable="true" 
+        ondragstart="event.dataTransfer.setData('text/plain',null)">
+        This div is draggable
+    </div>
+</div>
+<div class="dropzone" data-target="1"></div>
+<div class="dropzone" data-target="2"></div>
+<div class="dropzone dropNode" data-target="3"></div>
+
+</section>
+    <h2>Todo Count</h2> 
+
+
+<script src="todoMDN.js"></script>
+<script>
+        init();
+</script>
+</body>
+</html>
