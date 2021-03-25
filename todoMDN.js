@@ -92,12 +92,20 @@ function onDrop(event) {
     console.log("onDrop draggedElement, event", app.draggedElement, event);
     // prevent default action (open as link for some elements)
     event.preventDefault();
+    console.log("onDrop event.target.parentNode", event.target.parentNode);
+
     // move dragged elem to the selected drop target
-    if ( event.target.className == "dropzone" ) {
+    if ( event.target.className == "dropzone" || event.target.parentNode.className == "dropzone"  ) {
         event.target.style.background = "";
-        console.log("app.draggedElement.parentNode", app.draggedElement.parentNode);
-        app.draggedElement.parentNode.removeChild( app.draggedElement );
-        event.target.appendChild( app.draggedElement );
+        // app.draggedElement.parentNode.removeChild( app.draggedElement );
+        if(event.target.nodeName ==="LI")
+        {
+            event.target.parentNode.appendChild( app.draggedElement );
+        }
+        else {
+            event.target.appendChild( app.draggedElement );
+        }
+        // setTimeout(()=>{console.log("timeout")}, 300);
     }
 }
 
