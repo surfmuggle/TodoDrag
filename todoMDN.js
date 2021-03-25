@@ -60,9 +60,8 @@ function todoDragEndEvent(event)
 
 function onDragStart(event)
 {
-    // store a ref. on the dragged elem
+    // store a ref. on the dragged elem in global var
     app.draggedElement = event.target;
-    console.log("dragtstart event.target", event.target);
 }
 
 function onDragOver(event) {
