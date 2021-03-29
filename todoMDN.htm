@@ -16,22 +16,35 @@
     .done {color: green; text-decoration: line-through;}
     .dragdropArea {min-height: 5em; border: 1px solid grey; padding: 1ex;}  
 
-    #draggable {  background: white; }
-    .dropzone {  background: rgb(144, 175, 231); margin-bottom: 10px; padding: 10px; }      
+    .dropzone {  background: rgb(194, 211, 243); margin-bottom: 1ex; padding: 1ex; }      
     </style>
 </head>
 
 <body>
 <section>
 <h2>Todo Items</h2>
-<div class="dropzone">
-    <div id="draggable" draggable="true" 
-        ondragstart="event.dataTransfer.setData('text/plain',null)">
-        This div is draggable
-    </div>
+<div>
+    <label for="addTodo">new todo</label> <input id="addTodo" name="addTodo" type="text" placeholder="add a todo">
+    <h3>open todos</h3>
+    <ul class="dropzone" id="todoList" data-todo-status="open">
+        
+    </ul>
+    <ul class="dropzone">
+        <li draggable="true" 
+            ondragstart="event.dataTransfer.setData('text/plain',null)">
+            This list item is draggable
+        </li>
+    </ul>
 </div>
-<div class="dropzone" data-target="1"></div>
-<div class="dropzone" data-target="2"></div>
+<div id="in-progressArea">
+    <h3>todo in progress</h3>
+    <ul class="dropzone" id="in-progressList" data-todo-status="in-progress"></ul>
+</div>
+<div id="doneArea">
+    <h3>todo done</h3>
+    <ul class="dropzone" id="doneList" data-todo-status="done"></ul>
+</div>
+
 <div class="dropzone dropNode" data-target="3"></div>
 
 </section>
